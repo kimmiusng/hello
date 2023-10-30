@@ -16,6 +16,11 @@ public class Example {
         student1.getName(); // 값을 읽을 때 사용, 읽기 전용
         System.out.println(student1.getName());
 
+        student2.getName(); // 값을 읽을 때 사용, 읽기 전용
+        System.out.println(student2.getName());
+
+
+
 
 //        student1.name = "손흥민";
 //        System.out.println(student1.name);
@@ -27,6 +32,13 @@ public class Example {
 
         // 객체 필드는 왠만하면 감춰라
 //        student1.name = ""; // <- 필드접근 바로 하는 방법 권장 X
+
+//
+//        student1 손흥민 = new Student1("손흥민", 32);
+//        student1 이강인 = new student1("이강인"); // age : 0 초기화
+//        student1 아무개 = new student1(20); // name : null 초기화
+//        student1 황희찬 = new student1(); // name : null, age : 0 초기화
+
 
     }
 }

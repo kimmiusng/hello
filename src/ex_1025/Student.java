@@ -51,7 +51,6 @@ public class Student {
 
 
 
-
         public void setId(long id) {
                 this.id = id;
         }
@@ -70,5 +69,9 @@ public class Student {
         public void setCircle(String circle){
                 this.circle = circle;
         }
+
+        // alt + insert를 누르면
+        // getter와 setter 자동 코드 제공
+        // 객체를 만들때 기본 요소
 
 }
