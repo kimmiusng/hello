@@ -1,17 +1,15 @@
-package book_project;
+package base;
 
 import java.time.LocalDate;
 
 public class Book {
-    private Long id; // 식별용 필드 (유일해야함)
-    private String name; // 도서명
-    private String author; // 저자
-    private Long isbn; // isbn 책의 고유번호
-    private LocalDate publishedDate; // 출간일
+    private Long id;
+    private String name;
+    private String author;
+    private Long isbn;
+    private LocalDate publishedDate;
 
-
-
-    public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate){
+    public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -19,7 +17,7 @@ public class Book {
         this.publishedDate = publishedDate;
     }
 
-    public Book(){
+    public Book() {
 
     }
 
