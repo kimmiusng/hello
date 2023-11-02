@@ -4,27 +4,24 @@ public class Solution {
     public static void main(String[] args) {
 
         Solution solution = new Solution();
-        solution.solution(2, 3);
-
+        solution.solution(new int[]{3, 4, 5, 2, 1});
 
     }
 
+    public int solution(int[] num_list) {
+        String a = "";
+        String b = "";
+        int answer = 0;
 
-    public int solution(int num1, int num2) {
-        // int answer = 0;
-
-        int result = 0;
-        if (num1 == num2) {
-            result = 1;
-        } else {
-            result = -1;
+        for (int i = 0; i < num_list.length; i++) {
+            if (num_list[i] % 2 == 0) {
+                a += num_list[i] + "";
+            } else {
+                b += num_list[i] + "";
+            }
         }
-
-        System.out.println(result);
-        return result;
-
+        answer = Integer.parseInt(a) + Integer.parseInt(b);
+        return answer;
     }
 }
-
-
 

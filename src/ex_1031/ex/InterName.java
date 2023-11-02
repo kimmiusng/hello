@@ -1,6 +1,6 @@
 package ex_1031.ex;
 
-public interface InterName {...}
+//public interface InterName {...}
 //인터페이스 선언
 //
 //상수 필드는 선언 가능하나 선언과 동시에 초기값 지정
