@@ -1,4 +1,4 @@
-package ex_1106.bankApp;
+package ex_1106.bookManagement;
 
 public abstract class BookManager {
 

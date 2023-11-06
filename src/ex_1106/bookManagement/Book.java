@@ -1,7 +1,6 @@
-package ex_1106.bankApp;
+package ex_1106.bookManagement;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class Book {
 
