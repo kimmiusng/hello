@@ -1,4 +1,4 @@
-package bookManagement;
+package bookManagement.bm;
 
 public abstract class BookManager {
     abstract void init();

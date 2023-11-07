@@ -1,4 +1,6 @@
-package bookManagement;
+package bookManagement.bm;
+
+import bookManagement.book.Book;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
