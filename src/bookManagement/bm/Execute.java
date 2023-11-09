@@ -1,10 +1,7 @@
 package bookManagement.bm;
 
-import bookManagement.bm.BM2;
-import bookManagement.bm.BookManager;
-
 public class Execute {
-    static BookManager bm = new BM3();
+    static BookManager bm = new BM3_2();
     public static void main(String[] args) {
 
         bm.init();
