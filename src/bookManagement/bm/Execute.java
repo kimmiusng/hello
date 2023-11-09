@@ -1,7 +1,7 @@
 package bookManagement.bm;
 
 public class Execute {
-    static BookManager bm = new BM3_2();
+    static BookManager bm = new BM3();
     public static void main(String[] args) {
 
         bm.init();

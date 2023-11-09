@@ -4,7 +4,9 @@ import bookManagement.book.AudioBook;
 import bookManagement.book.Book;
 import bookManagement.book.EBook;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -89,10 +91,10 @@ public class BM3 extends BookManager {
         bookInfo[3] = sc.nextLine();
         System.out.print("출판일(YYYY-MM-DD): ");
         bookInfo[4] = sc.nextLine();
-        if (Integer.parseInt(bookType)==2) {
+        if (Integer.parseInt(bookType) == 2) {
             System.out.print("파일크기(mb): ");
             bookInfo[5] = sc.nextLine();
-        } else if (Integer.parseInt(bookType)==3) {
+        } else if (Integer.parseInt(bookType) == 3) {
             System.out.print("파일크기(mb): ");
             bookInfo[5] = sc.nextLine();
             System.out.print("재생언어: ");
@@ -259,5 +261,26 @@ public class BM3 extends BookManager {
         }
         // bookList를 다 돌았는데 해당 id의 도서를 못찾았다.
         return null;
+    }
+
+    public Boolean isLong(String str){
+        try {
+            Long.parseLong(str);
+            return true;
+        }catch (NumberFormatException e){
+            System.out.println("Error! 숫자를 입력해주세요.");
+            return false;
+        }
+    }
+
+    public Boolean isLocalDate(String str){
+        try {
+            LocalDate.parse(str);
+            return true;
+
+        }catch (DateTimeException e){
+            System.out.println("Error! 날짜형식으로 입력해주세요");
+            return false;
+        }
     }
 }
