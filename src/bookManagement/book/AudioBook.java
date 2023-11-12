@@ -22,6 +22,24 @@ public class AudioBook extends Book {
         this.playTime = playTime;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "\t"
+                + fileSize + "mb\t"
+                + language + "\t"
+                + playTime + "초";
+    }
+
+    @Override
+    public int hashCode() {
+        return "AudioBook".hashCode() + super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Book && super.equals(obj);
+    }
+
     public String getFileSize() {
         return fileSize;
     }

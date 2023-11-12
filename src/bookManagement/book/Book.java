@@ -1,6 +1,7 @@
 package bookManagement.book;
 
 import java.time.LocalDate;
+
 public class Book {
     private Long id;
     private String name;
@@ -19,6 +20,31 @@ public class Book {
     public Book() {
 
     }
+
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "\t"
+                + this.id + "\t"
+                + this.name + "\t"
+                + this.author + "\t"
+                + this.isbn + "\t"
+                + this.publishedDate;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode() + this.author.hashCode() + (int) (Math.sqrt(this.isbn));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Book &&
+                this.name.equals(((Book) obj).getName()) &&
+                this.author.equals(((Book) obj).getAuthor()) &&
+                this.isbn.equals(((Book) obj).getIsbn());
+    }
+
 
     public Long getId() {
         return id;

@@ -11,6 +11,22 @@ public class EBook extends Book {
         this.fileSize = fileSize;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "\t"
+                + fileSize + "mb";
+    }
+
+    @Override
+    public int hashCode() {
+        return "EBook".hashCode() + super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Book && super.equals(obj);
+    }
+
     public EBook(String fileSize) {
         this.fileSize = fileSize;
     }
