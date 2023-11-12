@@ -6,8 +6,9 @@ import bookManagement.book.EBook;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class BM3 extends BookManager {
@@ -38,7 +39,7 @@ public class BM3 extends BookManager {
             switch (userInput) {
                 case "1":
                     // 조회
-                    printAllBook();
+                    printBook();
                     break;
                 case "2":
                     // 등록
@@ -54,7 +55,7 @@ public class BM3 extends BookManager {
                     break;
                 case "q":
                     // 메소드를 종료
-                    System.out.println("프로그램 종료!");
+                    System.out.println("프로그램을 종료합니다.");
                     return;
             }
 
@@ -81,16 +82,22 @@ public class BM3 extends BookManager {
             return;
         }
 
-        System.out.print("id: ");
-        bookInfo[0] = sc.nextLine();
+        do {
+            System.out.print("id: ");
+            bookInfo[0] = sc.nextLine();
+        } while (!isLong(bookInfo[0]));
         System.out.print("제목: ");
         bookInfo[1] = sc.nextLine();
         System.out.print("저자: ");
         bookInfo[2] = sc.nextLine();
-        System.out.print("isbn: ");
-        bookInfo[3] = sc.nextLine();
-        System.out.print("출판일(YYYY-MM-DD): ");
-        bookInfo[4] = sc.nextLine();
+        do {
+            System.out.print("isbn: ");
+            bookInfo[3] = sc.nextLine();
+        } while (!isLong(bookInfo[3]));
+        do {
+            System.out.print("출판일(YYYY-MM-DD): ");
+            bookInfo[4] = sc.nextLine();
+        } while (!isLocalDate(bookInfo[4]));
         if (Integer.parseInt(bookType) == 2) {
             System.out.print("파일크기(mb): ");
             bookInfo[5] = sc.nextLine();
@@ -99,14 +106,17 @@ public class BM3 extends BookManager {
             bookInfo[5] = sc.nextLine();
             System.out.print("재생언어: ");
             bookInfo[6] = sc.nextLine();
-            System.out.print("재생시간(초)");
-            bookInfo[7] = sc.nextLine();
+            do {
+                System.out.print("재생시간(초)");
+                bookInfo[7] = sc.nextLine();
+            } while (!isLong(bookInfo[7]));
         }
 
 
         // book을 저장소에 저장
+        Book book;
         if (bookType.equals("1")) {
-            Book book = new Book(
+            book = new Book(
                     Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
@@ -114,16 +124,16 @@ public class BM3 extends BookManager {
                     LocalDate.parse(bookInfo[4]));
             bookList.add(book);
         } else if (bookType.equals("2")) {
-            Book eBook = new EBook(
+            book = new EBook(
                     Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
                     Long.parseLong(bookInfo[3]),
                     LocalDate.parse(bookInfo[4]),
                     bookInfo[5]);
-            bookList.add(eBook);
+            bookList.add(book);
         } else if (bookType.equals("3")) {
-            Book audioBook = new AudioBook(
+            book = new AudioBook(
                     Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
@@ -132,51 +142,163 @@ public class BM3 extends BookManager {
                     bookInfo[5],
                     bookInfo[6],
                     Integer.parseInt(bookInfo[7]));
-            bookList.add(audioBook);
+            bookList.add(book);
         }
     }
 
+    void printBook() {
+        while (true) {
+            System.out.println("■■■■■■ 도서 조회 메뉴 ■■■■■■");
+            System.out.println("(1) 도서 전체 조회");
+            System.out.println("(2) 도서 이름 조회");
+            System.out.println("(3) 도서 이름 사전순 조회");
+            System.out.println("(4) 도서 출간일 기간 조회");
+            System.out.println("(5) 도서 출간일순 조회");
+            System.out.println("(q) 메뉴 나가기");
+            System.out.print("선택 >> ");
+            String userInput = sc.nextLine();
+
+            switch (userInput) {
+                case "1":
+                    printAllBook();
+                    return;
+                case "2":
+                    printBookName();
+                    return;
+                case "3":
+                    printSortBookName();
+                    return;
+                case "4":
+                    printBookPublishDate();
+                    return;
+                case "5":
+                    printSortBookPublishDate();
+                    return;
+                case "q":
+                    return;
+                default:
+                    System.out.println("Error! 잘못된 입력입니다. 다시 확인해 주세요.");
+            }
+        }
+    }
+
+    void printBookForm(Book book) {
+        System.out.print("[");
+        if (book instanceof EBook) {
+            System.out.print("Ebook, ");
+        } else if (book instanceof AudioBook) {
+            System.out.print("AudioBook, ");
+        } else {
+            System.out.print("Book, ");
+        }
+
+        System.out.print(book.getId());
+        System.out.print(", ");
+        System.out.print(book.getName());
+        System.out.print(", ");
+        System.out.print(book.getAuthor());
+        System.out.print(", ");
+        System.out.print(book.getIsbn());
+        System.out.print(", ");
+        System.out.print(book.getPublishedDate());
+
+        if (book instanceof EBook) {
+            System.out.print(", ");
+            System.out.print(((EBook) book).getFileSize() + "mb");
+        } else if (book instanceof AudioBook) {
+            System.out.print(", ");
+            System.out.print(((AudioBook) book).getFileSize() + "mb");
+            System.out.print(", ");
+            System.out.print(((AudioBook) book).getLanguage());
+            System.out.print(", ");
+            System.out.print(((AudioBook) book).getPlayTime());
+        }
+        System.out.print("] ");
+        System.out.println();
+    }
 
     @Override
     public void printAllBook() {
         for (Book book : bookList) {
-            System.out.print("[");
-            if (book instanceof EBook) {
-                System.out.println("Ebook, ");
-            } else if (book instanceof AudioBook) {
-                System.out.println("AudioBook, ");
-            } else {
-                System.out.println("Book, ");
-            }
-
-            System.out.print(book.getId());
-            System.out.print(", ");
-            System.out.print(book.getName());
-            System.out.print(", ");
-            System.out.print(book.getAuthor());
-            System.out.print(", ");
-            System.out.print(book.getIsbn());
-            System.out.print(", ");
-            System.out.print(book.getPublishedDate());
-
-            if (book instanceof EBook) {
-                System.out.print(", ");
-                System.out.print(((EBook) book).getFileSize() + "mb");
-            } else if (book instanceof AudioBook) {
-                System.out.print(", ");
-                System.out.print(((AudioBook) book).getFileSize() + "mb");
-                System.out.print(", ");
-                System.out.print(((AudioBook) book).getLanguage());
-                System.out.print(", ");
-                System.out.print(((AudioBook) book).getPlayTime());
-            }
-            System.out.print("] ");
-            System.out.println();
+            printBookForm(book);
         }
     }
 
+    void printBookName(){
+        String name;
+        do{System.out.print("검색할 도서 이름을 입력해주세요. : ");
+        name = sc.nextLine();} while (name.isEmpty());
+        int count = 0;
+        for (Book book : bookList){
+            if(book.getName().contains(name)){
+                printBookForm(book);
+                count++;
+                break;
+            }
+        }
+        if (count == 0){
+            System.out.println("해당 도서는 존재하지 않습니다.");
+        } else {
+            System.out.println("총 검색결과 : " + count +"건");
+        }
+    }
+
+    void printSortBookName(){
+        ArrayList<String> names = new ArrayList<>();
+        for (Book book : bookList){
+            names.add(book.getName());
+        }
+        Collections.sort(names);
+        for (String name : names){
+            for (Book book : bookList){
+                if (name.equals(book.getName())){
+                    printBookForm(book);
+                    break;
+                }
+            }
+        }
+    }
+
+    void printBookPublishDate(){
+        String start;
+        String end;
+        System.out.println("검색할 출간일 기간을 입력해주세요.");
+        do{System.out.print("검색 시작일(YYYY-MM-DD 형식) : ");
+        start = sc.nextLine();}while (!isLocalDate(start));
+        do{System.out.print("검색 종료일(YYYY-MM-DD 형식 : ");
+        end = sc.nextLine();}while (!isLocalDate(end));
+        int count = 0;
+        for (Book book : bookList){
+            if (book.getPublishedDate().isAfter(LocalDate.parse(start)) && book.getPublishedDate().isBefore(LocalDate.parse(end))){
+                printBookForm(book);
+            }
+        }
+        if (count == 0){
+            System.out.println("해당 도서가 존재하지 않습니다.");
+        } else {
+            System.out.println("총 검색결과 : " + count + "건");
+        }
+    }
+
+    void printSortBookPublishDate(){
+        ArrayList<LocalDate> publishdates = new ArrayList<>();
+        for (Book book : bookList){
+            publishdates.add(book.getPublishedDate());
+        }
+        Collections.sort(publishdates);
+        for (LocalDate publishdate : publishdates){
+            for (Book book : bookList){
+                if (publishdate.equals(book.getPublishedDate())){
+                    printBookForm(book);
+                    break;
+                }
+            }
+        }
+    }
+
+
     @Override
-    public void updateBook() {
+    void updateBook() {
 
         // System.out.println("수정 메서드 실행");
         // 1. 수정할 도서를 찾는다. (사서는 알 수 있다.) (v)
@@ -185,9 +307,9 @@ public class BM3 extends BookManager {
         // 2. 수정할 도서가 있을 때:
         // 새로운 입력 값 : 사용자로부터 입력받는다.
         // 도서 정보(필드)를 바꾼다.
-
-        System.out.print("수정할 도서번호를 입력해주세요: ");
-        String id = sc.nextLine();
+        String id;
+        do {System.out.print("수정할 도서번호를 입력해주세요: ");
+            id = sc.nextLine();} while (!isLong(id));
         Book book = findBook(Long.parseLong(id));
 
         // 책이 존재하지 않을 때
@@ -197,16 +319,16 @@ public class BM3 extends BookManager {
         }
         // 책이 존재할 때
         String[] bookInfo = new String[8];
-        bookInfo[0] = id;
-        System.out.println("[수정 정보를 입력해주세요]");
+        do {bookInfo[0] = id;
+            System.out.println("[수정 정보를 입력해주세요]");} while (!isLong(bookInfo[0]));
         System.out.print("제목: ");
         bookInfo[1] = sc.nextLine();
         System.out.print("저자: ");
         bookInfo[2] = sc.nextLine();
-        System.out.print("isbn: ");
-        bookInfo[3] = sc.nextLine();
-        System.out.print("출판일(YYYY-MM-DD): ");
-        bookInfo[4] = sc.nextLine();
+        do {System.out.print("isbn: ");
+            bookInfo[3] = sc.nextLine();} while (!isLong(bookInfo[3]));
+        do {System.out.print("출판일(YYYY-MM-DD): ");
+            bookInfo[4] = sc.nextLine();} while (!isLocalDate(bookInfo[4]));
 
         if (book instanceof EBook) {
             System.out.print("파일크기(mb): ");
@@ -217,8 +339,8 @@ public class BM3 extends BookManager {
             bookInfo[5] = sc.nextLine();
             System.out.print("재생언어: ");
             bookInfo[6] = sc.nextLine();
-            System.out.print("재생시간(초): ");
-            bookInfo[7] = sc.nextLine();
+            do {System.out.print("재생시간(초): ");
+                bookInfo[7] = sc.nextLine();} while (!isLong(bookInfo[7]));
         }
 
         book.setName(bookInfo[1]);
@@ -243,8 +365,9 @@ public class BM3 extends BookManager {
         // 있으면 삭제 가능
         // 2. 삭제할 도서가 있다면
         // 사서한테 도서 삭제 요청
-        System.out.print("삭제할 도서번호를 입력해주세요: ");
-        String id = sc.nextLine();
+        String id;
+        do {System.out.print("삭제할 도서번호를 입력해주세요: ");
+            id = sc.nextLine();} while (isLong(id));
 
         Book book = findBook(Long.parseLong(id));
         if (book == null) {
@@ -263,22 +386,22 @@ public class BM3 extends BookManager {
         return null;
     }
 
-    public Boolean isLong(String str){
+    public Boolean isLong(String str) {
         try {
             Long.parseLong(str);
             return true;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Error! 숫자를 입력해주세요.");
             return false;
         }
     }
 
-    public Boolean isLocalDate(String str){
+    public Boolean isLocalDate(String str) {
         try {
             LocalDate.parse(str);
             return true;
 
-        }catch (DateTimeException e){
+        } catch (DateTimeException e) {
             System.out.println("Error! 날짜형식으로 입력해주세요");
             return false;
         }
